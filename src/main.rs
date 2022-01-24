@@ -1,17 +1,18 @@
 use cacao::core_graphics::event::{
-    CGEventField, CGEventFlags, CGEventTap, CGEventTapLocation, CGEventTapOptions,
-    CGEventTapPlacement, CGEventType, KeyCode,
+    CGEventTap, CGEventTapLocation, CGEventTapOptions, CGEventTapPlacement, CGEventType, KeyCode,
 };
 use core_foundation::{
     array::{CFArrayGetCount, CFArrayGetValueAtIndex, CFArrayRef},
     base::CFIndexConvertible,
-    boolean::{kCFBooleanTrue, CFBooleanRef},
+    boolean::kCFBooleanTrue,
     dictionary::{CFDictionaryCreate, CFDictionaryRef},
-    runloop::{kCFRunLoopCommonModes, CFRunLoop, CFRunLoopGetCurrent},
-    string::kCFStringEncodingUTF8,
-    string::{CFStringGetCStringPtr, CFStringRef},
+    runloop::{kCFRunLoopDefaultMode, CFRunLoop},
+    string::CFStringRef,
 };
-use std::ffi::{c_void, CStr};
+use std::{
+    ffi::c_void,
+    time::{SystemTime, UNIX_EPOCH},
+};
 
 struct __TISInputSource;
 
@@ -20,22 +21,25 @@ extern "C" {
 
     fn TISCreateInputSourceList(props: CFDictionaryRef, includeAllInstalled: bool) -> CFArrayRef;
 
-    fn TISGetInputSourceProperty(
-        inputSource: *const c_void,
-        propertyKey: CFStringRef,
-    ) -> *const c_void;
-
     fn TISSelectInputSource(input_source: *const c_void) -> i32;
 
-    static kTISPropertyInputSourceID: CFStringRef;
-    static kTISPropertyInputSourceCategory: CFStringRef;
     static kTISPropertyInputSourceType: CFStringRef;
     static kTISPropertyInputSourceIsEnabled: CFStringRef;
-    static kTISPropertyInputSourceIsSelected: CFStringRef;
-
     static kTISTypeKeyboardLayout: CFStringRef;
 
 }
+
+struct KeyPressInfo {
+    pub last_key_press_timestamp: u128,
+    pub lang_index: isize,
+}
+
+unsafe impl Send for KeyPressInfo {}
+
+static mut INFO: KeyPressInfo = KeyPressInfo {
+    last_key_press_timestamp: 0,
+    lang_index: 0,
+};
 
 fn main() {
     unsafe {
@@ -46,22 +50,39 @@ fn main() {
             CGEventTapPlacement::HeadInsertEventTap,
             CGEventTapOptions::ListenOnly,
             vec![CGEventType::FlagsChanged],
-            |_a, _b, d| {
-                match d.get_type() {
-                    CGEventType::FlagsChanged => {
-                        println!("Type: Flags changed");
-                    }
-                    _ => {
-                        println!("Other event type");
-                    }
-                }
-
+            move |_a, _b, d| {
                 let key_code = d.get_integer_value_field(9);
+                let flags = d.get_flags();
 
-                println!("Flags = {}, KeyCode = {}", d.get_flags().bits(), key_code);
+                if key_code == KeyCode::FUNCTION.into() && flags.bits() != 256 {
+                    println!(
+                        "Caps Lock pressed, flags = {}, key_code = {}",
+                        flags.bits(),
+                        key_code
+                    );
+                    let now = get_epoch_ms();
 
-                if key_code == KeyCode::CAPS_LOCK.into() {
-                    println!("Caps Lock pressed");
+                    println!(
+                        "Last press = {}, now = {}, diff = {}",
+                        INFO.last_key_press_timestamp,
+                        now,
+                        now - INFO.last_key_press_timestamp
+                    );
+
+                    if (now - INFO.last_key_press_timestamp) < 600 {
+                        INFO.lang_index += 1;
+                        println!("Increasing lanugage index to {}", INFO.lang_index);
+                    } else {
+                        INFO.lang_index = 0;
+                        INFO.last_key_press_timestamp = get_epoch_ms();
+
+                        println!(
+                            "Resetting timer: last key press = {}, lang index = {}",
+                            INFO.last_key_press_timestamp, INFO.lang_index
+                        );
+                    }
+
+                    switch_lang(INFO.lang_index);
                 }
 
                 None
@@ -69,26 +90,24 @@ fn main() {
         );
 
         match tap_result {
-            Ok(tap) => unsafe {
+            Ok(tap) => {
                 let loop_source = tap
                     .mach_port
                     .create_runloop_source(0)
                     .expect("Somethings is bad ");
 
-                current.add_source(&loop_source, kCFRunLoopCommonModes);
+                current.add_source(&loop_source, kCFRunLoopDefaultMode);
                 tap.enable();
                 CFRunLoop::run_current();
-            },
+            }
             Err(_) => {
                 println!("Error create event listener");
             }
         }
-
-        // switch_lang();
     }
 }
 
-unsafe fn switch_lang() {
+unsafe fn switch_lang(language_index: isize) {
     let keys: Vec<*const c_void> = vec![
         std::mem::transmute(kTISPropertyInputSourceIsEnabled),
         std::mem::transmute(kTISPropertyInputSourceType),
@@ -108,59 +127,23 @@ unsafe fn switch_lang() {
         std::ptr::null(),
     );
 
-    println!("Dictionary created");
-
-    println!("Querying languages");
-
     let list = TISCreateInputSourceList(filter, false);
 
     let cnt = CFArrayGetCount(list);
-    println!("Count {}", cnt);
 
-    let cfstr_props = vec![
-        kTISPropertyInputSourceID,
-        kTISPropertyInputSourceCategory,
-        kTISPropertyInputSourceType,
-    ];
-
-    let cfbool_props = vec![
-        kTISPropertyInputSourceIsEnabled,
-        kTISPropertyInputSourceIsSelected,
-    ];
-
-    for i in 0..cnt {
-        let lang = CFArrayGetValueAtIndex(list, i);
-
-        println!("Language #{}", i);
-        for p in &cfstr_props {
-            let prop_void = TISGetInputSourceProperty(lang, *p);
-            let prop: CFStringRef = std::mem::transmute(prop_void);
-
-            println!("{} = {}", from_cf_string_ref(*p), from_cf_string_ref(prop));
-        }
-
-        for p in &cfbool_props {
-            let prop_void = TISGetInputSourceProperty(lang, *p);
-            let prop_bool: CFBooleanRef = std::mem::transmute(prop_void);
-
-            println!(
-                "{} = {}",
-                from_cf_string_ref(*p),
-                prop_bool == kCFBooleanTrue
-            );
-        }
-        println!("\n\n");
-    }
-
-    let lang = CFArrayGetValueAtIndex(list, 1);
+    let lang = CFArrayGetValueAtIndex(list, language_index.clamp(0, cnt - 1));
     let select_result = TISSelectInputSource(lang);
 
-    println!("Result {}", select_result);
+    println!(
+        "Setting language at {}, result {}",
+        language_index.clamp(0, cnt - 1),
+        select_result
+    );
 }
 
-unsafe fn from_cf_string_ref(r: CFStringRef) -> String {
-    let c_ptr = CFStringGetCStringPtr(r, kCFStringEncodingUTF8);
-    let prop_val = CStr::from_ptr(c_ptr);
-
-    String::from(prop_val.to_str().unwrap())
+fn get_epoch_ms() -> u128 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis()
 }

@@ -14,8 +14,6 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-struct __TISInputSource;
-
 #[link(name = "Carbon", kind = "framework")]
 extern "C" {
 

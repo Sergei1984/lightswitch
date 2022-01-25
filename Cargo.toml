@@ -17,4 +17,3 @@ identifier = "com.sergii-tokariev.lightswitch"
 icon = ["AppIcon.icns"]
 version = "1.0.0"
 category = "Utility"
-# osx_frameworks = [""]

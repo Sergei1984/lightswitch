@@ -20,8 +20,6 @@ static mut INFO: KeyPressInfo = KeyPressInfo {
 };
 
 pub unsafe fn start_switching_kbd_on_keypress() {
-    let current = CFRunLoop::get_current();
-
     let tap_result = CGEventTap::new(
         CGEventTapLocation::HID,
         CGEventTapPlacement::HeadInsertEventTap,
@@ -73,6 +71,8 @@ pub unsafe fn start_switching_kbd_on_keypress() {
                 .mach_port
                 .create_runloop_source(0)
                 .expect("Somethings is bad ");
+
+            let current = CFRunLoop::get_current();
 
             current.add_source(&loop_source, kCFRunLoopDefaultMode);
             tap.enable();

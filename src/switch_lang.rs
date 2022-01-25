@@ -1,12 +1,13 @@
 use std::ffi::c_void;
 
 use core_foundation::{
-    array::{CFArrayGetCount, CFArrayGetValueAtIndex, CFArrayRef},
+    array::{CFArrayGetCount, CFArrayGetValueAtIndex},
     base::CFIndexConvertible,
     boolean::kCFBooleanTrue,
-    dictionary::{CFDictionaryCreate, CFDictionaryRef},
+    dictionary::CFDictionaryCreate,
     string::CFStringRef,
 };
+use core_graphics::display::{CFArrayRef, CFDictionaryRef};
 
 #[link(name = "Carbon", kind = "framework")]
 extern "C" {

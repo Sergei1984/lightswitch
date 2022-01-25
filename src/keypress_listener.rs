@@ -1,9 +1,9 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use cacao::core_graphics::event::{
+use core_foundation::runloop::{kCFRunLoopDefaultMode, CFRunLoop};
+use core_graphics::event::{
     CGEventTap, CGEventTapLocation, CGEventTapOptions, CGEventTapPlacement, CGEventType, KeyCode,
 };
-use core_foundation::runloop::{kCFRunLoopDefaultMode, CFRunLoop};
 
 use crate::switch_lang::*;
 
@@ -46,18 +46,19 @@ pub unsafe fn start_switching_kbd_on_keypress() {
                     now - INFO.last_key_press_timestamp
                 );
 
-                if (now - INFO.last_key_press_timestamp) < 600 {
+                if (now - INFO.last_key_press_timestamp) < 300 {
                     INFO.lang_index += 1;
                     println!("Increasing lanugage index to {}", INFO.lang_index);
                 } else {
                     INFO.lang_index = 0;
-                    INFO.last_key_press_timestamp = get_epoch_ms();
 
                     println!(
                         "Resetting timer: last key press = {}, lang index = {}",
                         INFO.last_key_press_timestamp, INFO.lang_index
                     );
                 }
+
+                INFO.last_key_press_timestamp = get_epoch_ms();
 
                 switch_lang(INFO.lang_index);
             }

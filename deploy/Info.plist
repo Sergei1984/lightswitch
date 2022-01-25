@@ -7,7 +7,7 @@
         <key>CFBundleDisplayName</key>
         <string>Lightswitch Keyboard Layout Switcher</string>
         <key>CFBundleExecutable</key>
-        <string>lightswitch</string>
+        <string>launch.sh</string>
         <key>CFBundleIconFile</key>
         <string>AppIcon.icns</string>
         <key>CFBundleIdentifier</key>

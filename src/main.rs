@@ -14,36 +14,46 @@ fn main() {
     let mut last_key_press_timestamp = get_epoch_ms();
     let mut lang_index = 0;
 
+    let mut is_pressed = false;
+
     loop {
-        if Keycode::Function.is_pressed() {
-            let now = get_epoch_ms();
+        if Keycode::Function.is_pressed() || Keycode::CapsLock.is_pressed() {
+            if !is_pressed {
+                println!("--- pressed");
 
-            println!(
-                "Last press = {}, now = {}, diff = {}",
-                last_key_press_timestamp,
-                now,
-                now - last_key_press_timestamp
-            );
+                is_pressed = true;
 
-            if (now - last_key_press_timestamp) < 300 {
-                lang_index += 1;
-                println!("Increasing lanugage index to {}", lang_index);
-            } else {
-                lang_index = 0;
+                let now = get_epoch_ms();
 
                 println!(
-                    "Resetting timer: last key press = {}, lang index = {}",
-                    last_key_press_timestamp, lang_index
+                    "Last press = {}, now = {}, diff = {}",
+                    last_key_press_timestamp,
+                    now,
+                    now - last_key_press_timestamp
                 );
-            }
 
-            last_key_press_timestamp = get_epoch_ms();
-            unsafe {
-                switch_lang(lang_index);
+                if (now - last_key_press_timestamp) < 300 {
+                    lang_index += 1;
+                    println!("Increasing lanugage index to {}", lang_index);
+                } else {
+                    lang_index = 0;
+
+                    println!(
+                        "Resetting timer: last key press = {}, lang index = {}",
+                        last_key_press_timestamp, lang_index
+                    );
+                }
+
+                last_key_press_timestamp = get_epoch_ms();
+                unsafe {
+                    switch_lang(lang_index);
+                }
             }
+        } else {
+            is_pressed = false;
         }
 
-        thread::sleep(Duration::from_millis(100));
+        thread::sleep(Duration::from_millis(30));
     }
 }
 

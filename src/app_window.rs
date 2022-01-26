@@ -1,5 +1,6 @@
+use cacao::macos::menu::{Menu, MenuItem};
 use cacao::macos::window::Window;
-use cacao::macos::AppDelegate;
+use cacao::macos::{App, AppDelegate};
 use cacao::notification_center::Dispatcher;
 
 use crate::switch_lang::switch_lang;
@@ -11,10 +12,20 @@ pub struct LightswitchApp {
 
 impl AppDelegate for LightswitchApp {
     fn did_finish_launching(&self) {
+        App::set_menu(vec![Menu::new("", vec![MenuItem::Quit])]);
+
+        App::activate();
+
+        self.window.set_content_size(200., 100.);
         self.window.set_minimum_content_size(200., 100.);
+        self.window.set_maximum_content_size(200., 100.);
         self.window
             .set_title("Lightswitch Keyboard Layout Switcher");
         self.window.show();
+    }
+
+    fn should_terminate_after_last_window_closed(&self) -> bool {
+        true
     }
 }
 

@@ -2,13 +2,17 @@ use cacao::macos::menu::{Menu, MenuItem};
 use cacao::macos::window::Window;
 use cacao::macos::{App, AppDelegate};
 use cacao::notification_center::Dispatcher;
+use cacao::view::View;
 
+use crate::content_view::ContentView;
 use crate::switch_lang::switch_lang;
 
-#[derive(Default)]
 pub struct LightswitchApp {
-    window: Window,
+    pub window: Window,
+    pub content: View<ContentView>,
 }
+
+impl LightswitchApp {}
 
 impl AppDelegate for LightswitchApp {
     fn did_finish_launching(&self) {
@@ -26,6 +30,7 @@ impl AppDelegate for LightswitchApp {
         self.window
             .set_title("Lightswitch Keyboard Layout Switcher");
 
+        self.window.set_content_view(&self.content);
 
         self.window.show();
     }

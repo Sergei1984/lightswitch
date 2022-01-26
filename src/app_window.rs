@@ -28,7 +28,7 @@ impl AppDelegate for LightswitchApp {
         self.window.set_maximum_content_size(width, height);
 
         self.window
-            .set_title("Lightswitch Keyboard Layout Switcher");
+            .set_title("Lightswitch");
 
         self.window.set_content_view(&self.content);
 

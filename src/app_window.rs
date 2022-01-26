@@ -36,7 +36,7 @@ impl AppDelegate for LightswitchApp {
     }
 
     fn should_terminate_after_last_window_closed(&self) -> bool {
-        true
+        false
     }
 }
 

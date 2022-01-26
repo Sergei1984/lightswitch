@@ -20,26 +20,38 @@ impl ViewDelegate for ContentView {
 
         let description = Label::new();
         description.set_font(&Font::system(10.));
-        description.set_text("Quickly press CapsLock or Fn to activate keyboard layout with the same ordinal");
+        description.set_text(
+            "Quickly press CapsLock or Fn to activate keyboard layout with the same ordinal",
+        );
         description.set_text_alignment(cacao::text::TextAlign::Justified);
 
         let instructions = Label::new();
         instructions.set_font(&Font::system(10.));
         instructions.set_text("In Preferences -> Keyboard set 'Press 🌐' to 'Do Nothing' ");
         instructions.set_text_alignment(cacao::text::TextAlign::Justified);
+
         let instructions2 = Label::new();
         instructions2.set_font(&Font::system(10.));
         instructions2
             .set_text("In Preferences -> Keyboard -> Modifier Keys... set Caps Lock to 🌐 Globe");
         instructions2.set_text_alignment(cacao::text::TextAlign::Justified);
 
+        let copyright = Label::new();
+        copyright.set_font(&Font::system(10.));
+        copyright.set_text("© Serhii Tokariev 2022 \nhttps://github.com/Sergei1984/lightswitch");
+        copyright.set_text_alignment(cacao::text::TextAlign::Center);
+
         view.add_subview(&title);
         view.add_subview(&description);
         view.add_subview(&instructions);
         view.add_subview(&instructions2);
+        view.add_subview(&copyright);
 
         LayoutConstraint::activate(&[
-            title.top.constraint_equal_to(&view.top).offset(PADDING * 4.),
+            title
+                .top
+                .constraint_equal_to(&view.top)
+                .offset(PADDING * 4.),
             title.left.constraint_equal_to(&view.left).offset(PADDING),
             title
                 .right
@@ -69,14 +81,24 @@ impl ViewDelegate for ContentView {
                 .right
                 .constraint_equal_to(&view.right)
                 .offset(-PADDING),
-            instructions2
-                .top
-                .constraint_equal_to(&instructions.bottom),
+            instructions2.top.constraint_equal_to(&instructions.bottom),
             instructions2
                 .left
                 .constraint_equal_to(&view.left)
                 .offset(PADDING),
             instructions2
+                .right
+                .constraint_equal_to(&view.right)
+                .offset(-PADDING),
+            copyright
+                .bottom
+                .constraint_equal_to(&view.bottom)
+                .offset(-PADDING),
+            copyright
+                .left
+                .constraint_equal_to(&view.left)
+                .offset(PADDING),
+            copyright
                 .right
                 .constraint_equal_to(&view.right)
                 .offset(-PADDING),

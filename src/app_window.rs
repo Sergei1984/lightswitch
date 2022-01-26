@@ -16,11 +16,17 @@ impl AppDelegate for LightswitchApp {
 
         App::activate();
 
-        self.window.set_content_size(200., 100.);
-        self.window.set_minimum_content_size(200., 100.);
-        self.window.set_maximum_content_size(200., 100.);
+        let width = 400.;
+        let height = 200.;
+
+        self.window.set_content_size(width, height);
+        self.window.set_minimum_content_size(width, height);
+        self.window.set_maximum_content_size(width, height);
+
         self.window
             .set_title("Lightswitch Keyboard Layout Switcher");
+
+
         self.window.show();
     }
 

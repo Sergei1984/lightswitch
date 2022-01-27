@@ -30,11 +30,11 @@
      inkscape:zoom="0.66308594"
      inkscape:cx="512"
      inkscape:cy="512"
-     inkscape:window-width="1454"
+     inkscape:window-width="1324"
      inkscape:window-height="905"
      inkscape:window-x="0"
      inkscape:window-y="34"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
      id="defs2" />
@@ -43,16 +43,25 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#404952;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
-       id="rect1736"
+       style="fill:#060708;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
+       id="rect1007"
        width="211.66667"
        height="211.66667"
-       x="38.629173"
-       y="38.629173"
+       x="46.037514"
+       y="45.508347"
        rx="52.916668"
        ry="52.916668" />
     <rect
-       style="fill:#dce0e4;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
+       style="fill:#a1a1a1;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
+       id="rect1736"
+       width="211.66667"
+       height="211.66667"
+       x="33.866669"
+       y="33.866669"
+       rx="52.916668"
+       ry="52.916668" />
+    <rect
+       style="fill:#060708;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
        id="rect31"
        width="211.66667"
        height="211.66667"
@@ -66,19 +75,19 @@
      id="layer2"
      inkscape:label="GlobeIcon">
     <g
-       style="fill:none;stroke:#3e3e3e;stroke-opacity:1"
+       style="fill:none;stroke:#ffffff;stroke-opacity:1"
        id="g315"
        transform="matrix(0.28864725,0,0,0.28864725,74.850744,74.889372)">
       <path
          stroke-width="26"
          d="m 209,15 a 195,195 0 1 0 2,0 z"
          id="path303"
-         style="stroke:#3e3e3e;stroke-opacity:1" />
+         style="stroke:#ffffff;stroke-opacity:1" />
       <path
          stroke-width="18"
          d="M 210,15 V 405 M 405,210 H 15 M 59,90 a 260,260 0 0 0 302,0 m 0,240 A 260,260 0 0 0 59,330 M 195,20 a 250,250 0 0 0 0,382 m 30,0 a 250,250 0 0 0 0,-382"
          id="path305"
-         style="stroke:#3e3e3e;stroke-opacity:1" />
+         style="stroke:#ffffff;stroke-opacity:1" />
     </g>
   </g>
 </svg>

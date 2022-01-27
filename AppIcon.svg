@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
    sodipodi:docname="AppIcon.svg"
+   inkscape:export-filename="/Users/sergiitokariev/dev/lightswitch/AppIcon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +27,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
-     inkscape:zoom="0.062928775"
-     inkscape:cx="-5553.898"
-     inkscape:cy="2296.2468"
+     inkscape:zoom="0.66308594"
+     inkscape:cx="512"
+     inkscape:cy="512"
      inkscape:window-width="1454"
      inkscape:window-height="905"
      inkscape:window-x="0"
@@ -46,8 +49,8 @@
        height="211.66667"
        x="38.629173"
        y="38.629173"
-       rx="21.166666"
-       ry="21.166666" />
+       rx="52.916668"
+       ry="52.916668" />
     <rect
        style="fill:#a7b1ba;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583"
        id="rect31"
@@ -55,8 +58,8 @@
        height="211.66667"
        x="29.633331"
        y="29.633331"
-       rx="21.166666"
-       ry="21.166666" />
+       rx="52.916668"
+       ry="52.916668" />
   </g>
   <g
      inkscape:groupmode="layer"

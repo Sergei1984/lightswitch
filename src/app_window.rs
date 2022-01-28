@@ -5,6 +5,7 @@ use cacao::notification_center::Dispatcher;
 use cacao::view::View;
 
 use crate::content_view::ContentView;
+use crate::global_keyboard_hook::start_global_keyboard_hook;
 use crate::switch_lang::switch_lang;
 
 pub struct LightswitchApp {
@@ -27,12 +28,17 @@ impl AppDelegate for LightswitchApp {
         self.window.set_minimum_content_size(width, height);
         self.window.set_maximum_content_size(width, height);
 
-        self.window
-            .set_title("Lightswitch");
+        self.window.set_title("Lightswitch");
 
         self.window.set_content_view(&self.content);
 
         self.window.show();
+
+        unsafe {
+            start_global_keyboard_hook(|| {
+                switch_lang(0);
+            });
+        }
     }
 
     fn should_terminate_after_last_window_closed(&self) -> bool {

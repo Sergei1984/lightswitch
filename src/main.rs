@@ -1,7 +1,8 @@
 mod app_window;
 mod content_view;
-mod keypress_watcher;
+// mod keypress_watcher;
 mod switch_lang;
+mod global_keyboard_hook;
 
 use app_window::LightswitchApp;
 use cacao::{
@@ -12,7 +13,7 @@ use cacao::{
     view::View,
 };
 use content_view::ContentView;
-use keypress_watcher::start_keypress_watching;
+// use keypress_watcher::start_keypress_watching;
 
 fn main() {
     let app = App::new(
@@ -23,9 +24,9 @@ fn main() {
         },
     );
 
-    start_keypress_watching(|lang_index| {
-        App::<LightswitchApp, i32>::dispatch_main(lang_index);
-    });
+    // start_keypress_watching(|lang_index| {
+    //     App::<LightswitchApp, i32>::dispatch_main(lang_index);
+    // });
 
     app.run();
 }

@@ -14,8 +14,6 @@ pub struct LightswitchApp {
     pub content: View<ContentView>,
 }
 
-impl LightswitchApp {}
-
 impl AppDelegate for LightswitchApp {
     fn did_finish_launching(&self) {
         App::set_menu(vec![Menu::new("", vec![MenuItem::Quit])]);

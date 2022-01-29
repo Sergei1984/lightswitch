@@ -1,11 +1,14 @@
-use cacao::macos::menu::{Menu, MenuItem};
-use cacao::macos::window::Window;
-use cacao::macos::{App, AppDelegate};
-use cacao::notification_center::Dispatcher;
-use cacao::view::View;
+use cacao::{
+    macos::{
+        menu::{Menu, MenuItem},
+        window::Window,
+        App, AppDelegate,
+    },
+    notification_center::Dispatcher,
+    view::View,
+};
 
 use crate::content_view::ContentView;
-
 use crate::lang_switch_monitor::lang_switch_monitor;
 use crate::switch_lang::switch_lang;
 

@@ -3,7 +3,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use rdev::{grab, Event, EventType, Key};
+use rdev::{grab, listen, Event, EventType, Key};
 
 use crate::switch_lang::switch_lang;
 
@@ -11,7 +11,7 @@ pub fn lang_switch_monitor() {
     let last_key_press_timestamp_arc = Arc::new(Mutex::new(get_epoch_ms()));
     let lang_index_arc = Arc::new(Mutex::new(0));
 
-    let callback = move |event: Event| -> Option<Event> {
+    let callback = move |event: Event| {
         match event.event_type {
             EventType::KeyPress(Key::Function) => {
                 let now = get_epoch_ms();
@@ -49,10 +49,10 @@ pub fn lang_switch_monitor() {
             _ => {}
         }
 
-        Some(event)
+        // Some(event)
     };
     // This will block.
-    if let Err(error) = grab(callback) {
+    if let Err(error) = listen(callback) {
         println!("Error: {:?}", error)
     }
 }

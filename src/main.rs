@@ -1,15 +1,35 @@
-mod app_window;
-mod content_view;
+// mod app_window;
+// mod content_view;
+// mod lang_switch_monitor;
+// mod switch_lang;
+
+// use app_window::LightswitchApp;
+// use cacao::{
+//     macos::{
+//         window::{Window, WindowConfig},
+//         App,
+//     },
+//     view::View,
+// };
+// use content_view::ContentView;
+
+// fn main() {
+//     let app = App::new(
+//         "com.serhii-tokariev.lightswitch",
+//         LightswitchApp {
+//             window: Window::new(WindowConfig::default()),
+//             content: View::with(ContentView::default()),
+//         },
+//     );
+
+//     app.run();
+// }
+
 mod lang_switch_monitor;
 mod switch_lang;
 
 use lang_switch_monitor::lang_switch_monitor;
-use std::{io::Read, thread};
 
 fn main() {
-    thread::spawn(|| {
-        lang_switch_monitor();
-    });
-
-    let _ = std::io::stdin().read(&mut [0u8]).unwrap();
+    lang_switch_monitor();
 }

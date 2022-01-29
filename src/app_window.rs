@@ -1,3 +1,5 @@
+use std::thread;
+
 use cacao::macos::menu::{Menu, MenuItem};
 use cacao::macos::window::Window;
 use cacao::macos::{App, AppDelegate};
@@ -6,6 +8,7 @@ use cacao::view::View;
 
 use crate::content_view::ContentView;
 
+use crate::lang_switch_monitor::lang_switch_monitor;
 use crate::switch_lang::switch_lang;
 
 pub struct LightswitchApp {
@@ -33,6 +36,10 @@ impl AppDelegate for LightswitchApp {
         self.window.set_content_view(&self.content);
 
         self.window.show();
+
+        thread::spawn(|| {
+            lang_switch_monitor();
+        });
     }
 
     fn should_terminate_after_last_window_closed(&self) -> bool {

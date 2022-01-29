@@ -3,22 +3,28 @@ use crate::macos::common::*;
 use crate::rdev::{Event, ListenError};
 use cocoa::base::nil;
 use cocoa::foundation::NSAutoreleasePool;
-use core_graphics::event::{CGEventTapLocation, CGEventType};
+use core_graphics::event::{CGEventTapLocation, CGEventType, self};
 use std::os::raw::c_void;
 
 static mut GLOBAL_CALLBACK: Option<Box<dyn FnMut(Event)>> = None;
 
 unsafe extern "C" fn raw_callback(
     _proxy: CGEventTapProxy,
-    _type: CGEventType,
+    event_type: CGEventType,
     cg_event: CGEventRef,
     _user_info: *mut c_void,
 ) -> CGEventRef {
+    // let event_type_u32: u32 = event_type as u32;
+
+    // if event_type_u32 == CGEventType::TapDisabledByTimeout as u32 || event_type_u32 == CGEventType::TapDisabledByUserInput as u32 {
+    //     CGEventTapEnable(_proxy, true);
+    // }
+
     // println!("Event ref {:?}", cg_event_ptr);
     // let cg_event: CGEvent = transmute_copy::<*mut c_void, CGEvent>(&cg_event_ptr);
     let opt = KEYBOARD_STATE.lock();
     if let Ok(mut keyboard) = opt {
-        if let Some(event) = convert(_type, &cg_event, &mut keyboard) {
+        if let Some(event) = convert(event_type, &cg_event, &mut keyboard) {
             if let Some(callback) = &mut GLOBAL_CALLBACK {
                 callback(event);
             }

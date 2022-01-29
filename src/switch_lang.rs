@@ -1,6 +1,7 @@
 use std::ffi::c_void;
 
-use core_foundation::{dictionary::{CFDictionaryRef, CFDictionaryCreate}, array::{CFArrayRef, CFArrayGetCount, CFArrayGetValueAtIndex}, string::CFStringRef, boolean::kCFBooleanTrue, base::CFIndexConvertible};
+use cacao::core_foundation::{dictionary::{CFDictionaryCreate, CFDictionaryRef}, array::{CFArrayRef, CFArrayGetCount, CFArrayGetValueAtIndex}, string::CFStringRef, boolean::kCFBooleanTrue, base::CFIndexConvertible};
+
 
 #[link(name = "Carbon", kind = "framework")]
 extern "C" {

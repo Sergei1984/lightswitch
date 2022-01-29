@@ -8,7 +8,7 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-core-foundation = "0.9"
+cacao="0.2.1"
 rdev = { features = ["unstable_grab"], version = "0.5.1" }
 
 [package.metadata.bundle]

@@ -9,7 +9,7 @@ publish = false
 
 [dependencies]
 cacao="0.2.1"
-rdev = { features = ["unstable_grab"], version = "0.5.1" }
+rdev = { path = "./libs/rdev" }
 
 [package.metadata.bundle]
 name = "Lightswitch"

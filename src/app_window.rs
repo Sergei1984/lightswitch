@@ -1,5 +1,3 @@
-use std::thread;
-
 use cacao::macos::menu::{Menu, MenuItem};
 use cacao::macos::window::Window;
 use cacao::macos::{App, AppDelegate};
@@ -37,9 +35,7 @@ impl AppDelegate for LightswitchApp {
 
         self.window.show();
 
-        thread::spawn(|| {
-            lang_switch_monitor();
-        });
+        lang_switch_monitor();
     }
 
     fn should_terminate_after_last_window_closed(&self) -> bool {

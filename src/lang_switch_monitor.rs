@@ -3,7 +3,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use rdev::{grab, listen, Event, EventType, Key};
+use rdev::{listen_main, Event, EventType, Key};
 
 use crate::switch_lang::switch_lang;
 
@@ -52,7 +52,7 @@ pub fn lang_switch_monitor() {
         // Some(event)
     };
     // This will block.
-    if let Err(error) = listen(callback) {
+    if let Err(error) = listen_main(callback) {
         println!("Error: {:?}", error)
     }
 }

@@ -37,7 +37,7 @@ where
 
     match tap_result {
         Ok(tap) => {
-            let run_loop = CFRunLoop::get_main();
+            let run_loop = CFRunLoop::get_current();
             let loop_source = tap
                 .mach_port
                 .create_runloop_source(0)
@@ -45,6 +45,8 @@ where
 
             run_loop.add_source(&loop_source, kCFRunLoopDefaultMode);
             tap.enable();
+
+            CFRunLoop::run_current();
         }
         Err(_) => {
             println!("Error creating tap source");

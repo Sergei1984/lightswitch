@@ -17,3 +17,4 @@ identifier = "com.sergii-tokariev.lightswitch"
 icon = ["AppIcon.icns"]
 version = "1.0.0"
 category = "Utility"
+osx_minimum_system_version="10.11"

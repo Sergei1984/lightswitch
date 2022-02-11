@@ -3,7 +3,7 @@ use crate::macos::common::*;
 use crate::rdev::{Event, ListenError};
 use cocoa::base::nil;
 use cocoa::foundation::NSAutoreleasePool;
-use core_graphics::event::{CGEventTapLocation, CGEventType, self};
+use core_graphics::event::{CGEventTapLocation, CGEventType};
 use std::os::raw::c_void;
 
 static mut GLOBAL_CALLBACK: Option<Box<dyn FnMut(Event)>> = None;

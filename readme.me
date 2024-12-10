@@ -1,0 +1,20 @@
+# Lightswitch
+
+Application that allows switching to certain input language by pressing `Caps Lock` or `Fn` (or `Globe`) button several times in quick succession.
+
+## Setup Mac OS to work with Light Switch
+
+`System Preferences -> Keyboard -> Press (Globe) key` set to  Do nothing
+(to disable system switching)
+
+If you would like to switch with Caps Lock, set:
+`System Preferences -> Keyboard Shortcuts... -> Modifier Keys -> Caps Lock Key` set to `Globe`
+
+## Build application from the source
+
+- Install Rust https://www.rust-lang.org/tools/install
+- Open terminal in application folder and run `cargo build`
+- After successful build, run `deploy/pack.macos.sh`
+- If script completed successfully, the `dmg` file will be placed in `target/macos/Lightswitch.dmg`
+
+Double click resulting dmg file and copy-paste Lightswich app to Application folder.
